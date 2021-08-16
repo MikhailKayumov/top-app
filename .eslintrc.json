@@ -4,6 +4,7 @@
   "plugins": [
     "@typescript-eslint"
   ],
+  "ignorePatterns": ["next.config.js", "node_modules/**"],
   "rules": {
     "semi": "off",
     "@typescript-eslint/semi": ["error"],
