@@ -2,8 +2,12 @@
 
 :root {
   --black: #3B434E;
+  --grey: #EBEBEB;
+  --grey-light: #EBEBEB;
   --white: #FFF;
   --primary: #7653FC;
+  --primary-hover: #6344DF;
+  --primary-active: #5135BB;
   --red: #FC836D;
   --green: #1DC37E;
   --green-light: #C8F8E4;
