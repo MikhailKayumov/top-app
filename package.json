@@ -8,7 +8,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint --fix",
-    "eslint": "eslint '**/*.ts{,x}' --fix",
+    "eslint": "eslint . --ext .js,.jsx,.ts,.tsx --fix",
     "stylelint": "stylelint \"**/*.css\" --fix"
   },
   "dependencies": {

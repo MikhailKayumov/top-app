@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { AppContextProvider, IAppContext } from 'context/app.context';
 import { Header } from "./Header/Header";
 import { Sidebar } from "./Sidebar/Sidebar";
 import { Footer } from "./Footer/Footer";
@@ -17,15 +18,14 @@ const Layout: React.FC = ({ children }): JSX.Element => {
   );
 };
 
-export const WithLayout = <T extends Record<string, unknown>>(Component: React.FC<T>): React.FC<T> => {
+export const WithLayout = <T extends Record<string, unknown> & IAppContext>(Component: React.FC<T>): React.FC<T> => {
   return function WithLayoutComponent(props: T): JSX.Element {
     return (
-      <Layout>
-        <Component {...props} />
-      </Layout>
+      <AppContextProvider menu={props.menu} firstCategory={props.firstCategory}>
+        <Layout>
+          <Component {...props} />
+        </Layout>
+      </AppContextProvider>
     );
   };
 };
-
-// NEXT_PUBLIC_TLS_REJECT_UNAUTHORIZED=0
-// NEXT_PUBLIC_DOMAIN=https://courses-top.ru
