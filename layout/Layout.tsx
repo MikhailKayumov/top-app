@@ -26,3 +26,6 @@ export const WithLayout = <T extends Record<string, unknown>>(Component: React.F
     );
   };
 };
+
+// NEXT_PUBLIC_TLS_REJECT_UNAUTHORIZED=0
+// NEXT_PUBLIC_DOMAIN=https://courses-top.ru
