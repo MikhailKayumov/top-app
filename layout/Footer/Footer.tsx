@@ -1,6 +1,6 @@
 import React from 'react';
 import clsx from "classnames";
-import { format } from 'date-fns';
+import format from 'date-fns/format';
 
 import { FooterProps } from './Footer.props';
 import styles from './Footer.module.css';
