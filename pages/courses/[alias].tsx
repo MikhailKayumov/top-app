@@ -1,11 +1,11 @@
 import { GetStaticPaths, GetStaticProps, GetStaticPropsContext } from "next";
-import API from "../../utils/API";
+import { SAxios } from "utils/Axios";
 
-import { WithLayout } from "../../layout/Layout";
+import { WithLayout } from "layout/Layout";
 
-import { MenuItem } from "../../interfaces/menu.interface";
-import { TopPageModel } from "../../interfaces/page.interface";
-import { ProductModel } from "../../interfaces/product.interface";
+import { MenuItem } from "interfaces/menu.interface";
+import { TopPageModel } from "interfaces/page.interface";
+import { ProductModel } from "interfaces/product.interface";
 
 const firstCategory = 0;
 
@@ -21,7 +21,7 @@ export default WithLayout(Course);
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const route = `${process.env.NEXT_PUBLIC_DOMAIN}/api/top-page/find`;
-  const { data: menu } = await API.post<MenuItem[]>(route, { firstCategory });
+  const { data: menu } = await SAxios.post<MenuItem[]>(route, { firstCategory });
 
   return {
     paths: menu.flatMap((m) => m.pages.map((p) => `/courses/${p.alias}`)),
@@ -37,11 +37,11 @@ export const getStaticProps: GetStaticProps<CourseProps> = async ({ params }: Ge
   }
 
   const route = process.env.NEXT_PUBLIC_DOMAIN;
-  const { data: menu } = await API.post<MenuItem[]>(`${route}/api/top-page/find`, {
+  const { data: menu } = await SAxios.post<MenuItem[]>(`${route}/api/top-page/find`, {
     firstCategory
   });
-  const { data: page } = await API.get<TopPageModel>(`${route}/api/top-page/byAlias/${params.alias}`);
-  const { data: products } = await API.post<ProductModel[]>(`${route}/api/product/find`, {
+  const { data: page } = await SAxios.get<TopPageModel>(`${route}/api/top-page/byAlias/${params.alias}`);
+  const { data: products } = await SAxios.post<ProductModel[]>(`${route}/api/product/find`, {
     category: page.category,
     limit: 10
   });

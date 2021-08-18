@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { GetStaticProps } from "next";
-import API from "../utils/API";
+import { SAxios } from "utils/Axios";
 
-import { Button, HTag, PTag, Tag } from "../components";
-import { Rating } from "../components/Rating/Rating";
-import { WithLayout } from "../layout/Layout";
+import { Button, HTag, PTag, Tag } from "components";
+import { Rating } from "components/Rating/Rating";
+import { WithLayout } from "layout/Layout";
 
-import { MenuItem } from "../interfaces/menu.interface";
+import { MenuItem } from "interfaces/menu.interface";
 
 function Home({ menu, firstCategory }: HomeProps): JSX.Element {
   const [rating, setRating] = useState(0);
@@ -63,7 +63,7 @@ export default WithLayout(Home);
 export const getStaticProps: GetStaticProps<HomeProps> = async () => {
   const firstCategory = 0;
   const route = `${process.env.NEXT_PUBLIC_DOMAIN}/api/top-page/find`;
-  const { data: menu } = await API.post<MenuItem[]>(route, { firstCategory });
+  const { data: menu } = await SAxios.post<MenuItem[]>(route, { firstCategory });
 
   return {
     props: {
