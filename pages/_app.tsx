@@ -9,7 +9,7 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
       <Head>
         <title>MyTop</title>
         <meta name="description" content="Топ лучших IT и дизайн курсов" />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/favicon.svg" />
       </Head>
       <Component {...pageProps} />
     </>

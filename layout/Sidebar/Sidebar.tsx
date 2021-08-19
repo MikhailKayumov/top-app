@@ -1,14 +1,20 @@
 import React from 'react';
-
-import { SidebarProps } from "./Sidebar.props";
-
-import styles from './Sidebar.module.css';
+import clsx from "classnames";
 
 import { Menu } from '../Menu/Menu';
+import LogoIcon from '../logo.svg';
 
-export const Sidebar: React.FC<SidebarProps> = (props): JSX.Element => {
+import { SidebarProps } from "./Sidebar.props";
+import styles from './Sidebar.module.css';
+
+export const Sidebar: React.FC<SidebarProps> = ({
+  className,
+  ...props
+}): JSX.Element => {
   return (
-    <div {...props}>
+    <div {...props} className={clsx(styles.sidebar, className)}>
+      <LogoIcon className={styles.logo} />
+      <div>search</div>
       <Menu />
     </div>
   );

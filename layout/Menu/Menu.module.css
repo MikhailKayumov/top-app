@@ -7,10 +7,10 @@
   transition: color 0.16s ease-in-out;
 
   font-size: 18px;
-  font-weight: 500;
+  font-weight: 400;
   line-height: 25px;
   grid-template-columns: 24px 1fr;
-  gap: 14px;
+  gap: 20px;
 }
 
 .firstLevel svg {
@@ -27,17 +27,15 @@
   fill: var(--primary);
 }
 
-.secondLevelWrapp {
+.secondLevelWrapper {
   margin-top: 15px;
   margin-left: 12px;
-  padding-left: 32px;
+  padding: 10px 0 10px 32px;
 
   border-left: 1px solid #DFDFDF;
 }
 
 .secondLevel {
-  margin-bottom: 10px;
-
   cursor: pointer;
   text-transform: uppercase;
 
@@ -48,16 +46,28 @@
   line-height: 16px;
 }
 
-.secondLevelBlock {}
+.secondLevel:not(:first-child) {
+  margin-top: 10px;
+}
 
-.secondLevelBlock:last-child {
-  margin-bottom: 20px;
+.secondLevelBlock {
+  display: none;
+
+  margin-top: 10px;
+}
+
+.secondLevelBlockOpened {
+  display: block;
+}
+
+.secondLevelBlock:not(:last-child) {
+  margin-bottom: 15px;
 }
 
 .thirdLevel {
   display: block;
 
-  margin-bottom: 10px;
+  padding: 5px 0;
 
   cursor: pointer;
 
@@ -68,6 +78,10 @@
   font-size: 14px;
   font-weight: 500;
   line-height: 19px;
+}
+
+.thirdLevel:not(:last-child) {
+  /* margin-bottom: 10px; */
 }
 
 .thirdLevelActive,
