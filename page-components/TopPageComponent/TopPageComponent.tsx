@@ -1,5 +1,6 @@
 import React from 'react';
-import { Advantages, HHData, HTag, Tag } from "components";
+import { Advantages, HHData, HTag, Sort, Tag } from "components";
+import { SortingKind } from "components/Sort/Sort.props";
 import { TopLevelCategory } from "interfaces/page.interface";
 
 import { TopPageComponentProps } from "./TopPageComponent.props";
@@ -15,7 +16,7 @@ export const TopPageComponent: React.FC<TopPageComponentProps> = ({
       <div className={styles.title}>
         <HTag tag="h1">{page.title}</HTag>
         {products && <Tag color="grey" size="m">{products.length}</Tag>}
-        <span>sort</span>
+        <Sort sort={SortingKind.Rating} setSort={() => {}}/>
       </div>
       <div>
         {products.map((p) => {
