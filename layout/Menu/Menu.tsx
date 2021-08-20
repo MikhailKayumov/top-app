@@ -93,5 +93,5 @@ export const Menu = (): JSX.Element => {
     );
   };
 
-  return <>{buildFirstLevel()}</>;
+  return <div>{buildFirstLevel()}</div>;
 };

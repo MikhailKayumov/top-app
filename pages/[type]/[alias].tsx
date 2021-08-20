@@ -7,12 +7,15 @@ import { MenuItem } from "interfaces/menu.interface";
 import { TopLevelCategory, TopPageModel } from "interfaces/page.interface";
 import { ProductModel } from "interfaces/product.interface";
 import { firstLevelMenuDir } from "../../helpers";
+import { TopPageComponent } from "../../page-components";
 
-function TopPage({ menu, page, products }: TopPageProps): JSX.Element {
+function TopPage({ page, products, firstCategory }: TopPageProps): JSX.Element {
   return (
-    <>
-      {products && products.length}
-    </>
+    <TopPageComponent
+      page={page}
+      products={products}
+      firstCategory={firstCategory}
+    />
   );
 }
 
@@ -40,14 +43,14 @@ export const getStaticProps: GetStaticProps<TopPageProps> = async ({ params }: G
     const firstCategoryItem = !params ? null : firstLevelMenuDir.find((item) => {
       return item.route === params.type;
     });
-    if (!firstCategoryItem) throw Error();
+    if (!firstCategoryItem) return { notFound: true };
 
     const route = process.env.NEXT_PUBLIC_DOMAIN;
 
     const { data: menu } = await SAxios.post<MenuItem[]>(`${route}/api/top-page/find`, {
       firstCategory: firstCategoryItem.id
     });
-    if (!menu || !menu.length) throw Error();
+    if (!menu || !menu.length) return { notFound: true };
 
     const { data: page } = await SAxios.get<TopPageModel>(`${route}/api/top-page/byAlias/${params?.alias}`);
     const { data: products } = await SAxios.post<ProductModel[]>(`${route}/api/product/find`, {
