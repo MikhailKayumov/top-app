@@ -1,5 +1,5 @@
 import React, { useReducer } from 'react';
-import { Advantages, HHData, HTag, Sort, Tag } from "components";
+import { Advantages, HHData, HTag, Product, Sort, Tag } from "components";
 import { SortingKind } from "components/Sort/Sort.props";
 import { TopLevelCategory } from "interfaces/page.interface";
 
@@ -27,7 +27,7 @@ export const TopPageComponent: React.FC<TopPageComponentProps> = ({
         <Tag color="grey" size="m">{sortedProducts.length}</Tag>
         <Sort sort={sort} setSort={setSort}/>
       </div>
-      <div>{sortedProducts.map((p) => <div key={p._id}>{p.title}</div>)}</div>
+      <div>{sortedProducts.map((p) => <Product key={p._id} product={p} />)}</div>
       <div className={styles.HHTitle}>
         <HTag tag="h2">Вакансии - {page.category}</HTag>
         <Tag color="red" size="m">hh.ru</Tag>
