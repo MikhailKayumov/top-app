@@ -7,11 +7,11 @@ export interface TopPageModel {
   secondCategory: string;
   tags: string[];
   tagsTitle: string;
-  seoText: string;
+  seoText?: string;
   metaTitle: string;
   metaDescription: string;
-  advantages: TopPageAdvantage[];
-  hh: HHData;
+  advantages?: TopPageAdvantage[];
+  hh?: HHData;
   createdAt: Date;
   updatedAt: Date;
 }

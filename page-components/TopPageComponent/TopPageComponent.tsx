@@ -1,9 +1,9 @@
 import React from 'react';
-import { HHData, HTag, Tag } from "components";
+import { Advantages, HHData, HTag, Tag } from "components";
+import { TopLevelCategory } from "interfaces/page.interface";
 
 import { TopPageComponentProps } from "./TopPageComponent.props";
 import styles from './TopPageComponent.module.css';
-import { TopLevelCategory } from "../../interfaces/page.interface";
 
 export const TopPageComponent: React.FC<TopPageComponentProps> = ({
   page,
@@ -11,7 +11,7 @@ export const TopPageComponent: React.FC<TopPageComponentProps> = ({
   firstCategory
 }): JSX.Element => {
   return (
-    <div className={styles.wrapper}>
+    <>
       <div className={styles.title}>
         <HTag tag="h1">{page.title}</HTag>
         {products && <Tag color="grey" size="m">{products.length}</Tag>}
@@ -28,7 +28,11 @@ export const TopPageComponent: React.FC<TopPageComponentProps> = ({
         <HTag tag="h2">Вакансии - {page.category}</HTag>
         <Tag color="red" size="m">hh.ru</Tag>
       </div>
-      {firstCategory === TopLevelCategory.Courses && <HHData {...page.hh} />}
-    </div>
+      {firstCategory === TopLevelCategory.Courses && page.hh && <HHData {...page.hh} />}
+      {page.advantages && !!page.advantages.length && <Advantages advantages={page.advantages} />}
+      {page.seoText && <div className={styles.seo} dangerouslySetInnerHTML={{ __html: page.seoText }} />}
+      <HTag tag="h2">Получаемые навыки</HTag>
+      {page.tags.map((t) => <Tag color="primary" key={t}>{t}</Tag>)}
+    </>
   );
 };
