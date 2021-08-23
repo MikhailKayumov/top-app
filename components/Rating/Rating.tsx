@@ -11,6 +11,7 @@ export const Rating: React.FC<RatingProps> = ({
   rating,
   isEditable = false,
   setRating,
+  className,
   ...props
 }): JSX.Element => {
   const [ratingArray, setRatingArray] = useState<JSX.Element[]>(new Array(5).fill(<></>));
@@ -31,20 +32,18 @@ export const Rating: React.FC<RatingProps> = ({
   const constructRating = (currentRating: number) => {
     const updatedArray = ratingArray.map((r, id) => {
       return (
-        <span
-          className={isEditable ? styles.editable : ''}
+        <div
+          className={clsx(styles.starBox, { [styles.editable]: isEditable })}
           onMouseEnter={() => changeDisplay(id + 1)}
           onMouseLeave={() => changeDisplay(rating)}
           onClick={() => onClick(id + 1)}
         >
           <StarIcon
-            className={clsx(styles.star, {
-              [styles.filled]: id < currentRating,
-            })}
+            className={clsx(styles.star, { [styles.filled]: id < currentRating })}
             tabIndex={isEditable ? 0 : -1}
             onKeyDown={(e) => isEditable && handleSpace(id + 1, e)}
           />
-        </span>
+        </div>
       );
     });
 
@@ -56,8 +55,10 @@ export const Rating: React.FC<RatingProps> = ({
   }, [rating]);
 
   return (
-    <div {...props}>
-      {ratingArray.map((r, id) => (<span key={id}>{r}</span>))}
+    <div className={clsx(styles.wrapper, className)} {...props}>
+      {ratingArray.map((r, id) => (
+        <React.Fragment key={id}>{r}</React.Fragment>
+      ))}
     </div>
   );
 };

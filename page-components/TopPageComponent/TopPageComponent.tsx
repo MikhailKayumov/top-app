@@ -1,4 +1,4 @@
-import React, { useReducer } from 'react';
+import React, { useEffect, useReducer } from 'react';
 import { Advantages, HHData, HTag, Product, Sort, Tag } from "components";
 import { SortingKind } from "components/Sort/Sort.props";
 import { TopLevelCategory } from "interfaces/page.interface";
@@ -19,6 +19,10 @@ export const TopPageComponent: React.FC<TopPageComponentProps> = ({
   const setSort = (sortingKind: SortingKind) => {
     dispatcher({ type: sortingKind });
   };
+
+  // useEffect(() => {
+  //   dispatcher({ type: 'SET_PRODUCTS', products });
+  // }, [products]);
 
   return (
     <>
