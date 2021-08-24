@@ -10,6 +10,7 @@
 
   border: none;
   border-radius: 5px;
+  outline: none;
 
   font-size: 14px;
 }
@@ -29,7 +30,8 @@
   background-color: var(--primary-hover);
 }
 
-.primary:active {
+.primary:active,
+.primary:focus {
   background-color: var(--primary-active);
 }
 
@@ -45,7 +47,8 @@
   background-color: var(--grey-light);
 }
 
-.ghost:active {
+.ghost:active,
+.ghost:focus {
   background-color: #E0E0E0;
 }
 

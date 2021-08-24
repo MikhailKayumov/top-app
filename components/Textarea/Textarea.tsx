@@ -4,6 +4,28 @@ import clsx from "classnames";
 import { TextareaProps } from "./Textarea.props";
 import styles from './Textarea.module.css';
 
-export const Textarea: React.FC<TextareaProps> = ({ className, ...props }): JSX.Element => {
-  return <textarea className={clsx(styles.textarea, className)} {...props} />;
-};
+export const Textarea: React.ForwardRefExoticComponent<
+  React.PropsWithoutRef<TextareaProps> &
+  React.RefAttributes<HTMLTextAreaElement>
+> = React.forwardRef(
+  ({
+    className,
+    error,
+    ...props
+  }, ref): JSX.Element => {
+    return (
+      <div className={clsx(styles.textareaWrapper, {
+        [styles.wrapperError]: error
+      }, className)}>
+        <textarea
+          ref={ref}
+          className={clsx(styles.textarea, {
+            [styles.error]: error
+          })}
+          {...props}
+        />
+        {error && <span className={styles.errorMsg}>{error.message}</span>}
+      </div>
+    );
+  }
+);
