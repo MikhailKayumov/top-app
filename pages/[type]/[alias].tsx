@@ -1,13 +1,13 @@
 import { GetStaticPaths, GetStaticProps, GetStaticPropsContext } from "next";
-import { SAxios } from "utils/Axios";
+import axios from 'axios';
 
 import { WithLayout } from "layout/Layout";
 
 import { MenuItem } from "interfaces/menu.interface";
 import { TopLevelCategory, TopPageModel } from "interfaces/page.interface";
 import { ProductModel } from "interfaces/product.interface";
-import { firstLevelMenuDir } from "../../helpers";
-import { TopPageComponent } from "../../page-components";
+import { firstLevelMenuDir, API } from "helpers";
+import { TopPageComponent } from "page-components";
 
 function TopPage({ page, products, firstCategory }: TopPageProps): JSX.Element {
   return (
@@ -24,8 +24,7 @@ export default WithLayout(TopPage);
 export const getStaticPaths: GetStaticPaths = async () => {
   let paths: string[] = [];
   for (const item of firstLevelMenuDir) {
-    const route = `${process.env.NEXT_PUBLIC_DOMAIN}/api/top-page/find`;
-    const { data: menu } = await SAxios.post<MenuItem[]>(route, {
+    const { data: menu } = await axios.post<MenuItem[]>(API.topPage.find, {
       firstCategory: item.id
     });
 
@@ -45,15 +44,13 @@ export const getStaticProps: GetStaticProps<TopPageProps> = async ({ params }: G
     });
     if (!firstCategoryItem) return { notFound: true };
 
-    const route = process.env.NEXT_PUBLIC_DOMAIN;
-
-    const { data: menu } = await SAxios.post<MenuItem[]>(`${route}/api/top-page/find`, {
+    const { data: menu } = await axios.post<MenuItem[]>(API.topPage.find, {
       firstCategory: firstCategoryItem.id
     });
     if (!menu || !menu.length) return { notFound: true };
 
-    const { data: page } = await SAxios.get<TopPageModel>(`${route}/api/top-page/byAlias/${params?.alias}`);
-    const { data: products } = await SAxios.post<ProductModel[]>(`${route}/api/product/find`, {
+    const { data: page } = await axios.get<TopPageModel>(`${API.topPage.byAlias}${params?.alias}`);
+    const { data: products } = await axios.post<ProductModel[]>(API.product.find, {
       category: page.category,
       limit: 10
     });

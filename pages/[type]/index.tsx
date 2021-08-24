@@ -1,11 +1,9 @@
-import { useContext, useLayoutEffect } from "react";
 import { GetStaticPaths, GetStaticProps, GetStaticPropsContext } from "next";
+import axios from 'axios';
 
 import { WithLayout } from "layout/Layout";
 import { MenuItem } from "interfaces/menu.interface";
-import { AppContext } from "context/app.context";
-import { SAxios } from "utils/Axios";
-import { firstLevelMenuDir } from "helpers";
+import { API, firstLevelMenuDir } from 'helpers';
 
 function Type({ firstCategory, menu }: TypeProps): JSX.Element {return (
     <>type: {firstCategory}</>
@@ -27,8 +25,7 @@ export const getStaticProps: GetStaticProps<TypeProps> = async ({ params }: GetS
   });
   if (!firstCategoryItem) return { notFound: true };
 
-  const route = process.env.NEXT_PUBLIC_DOMAIN;
-  const { data: menu } = await SAxios.post<MenuItem[]>(`${route}/api/top-page/find`, {
+  const { data: menu } = await axios.post<MenuItem[]>(API.topPage.find, {
     firstCategory: firstCategoryItem.id
   });
 

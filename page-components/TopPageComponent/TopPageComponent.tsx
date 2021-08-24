@@ -13,16 +13,16 @@ export const TopPageComponent: React.FC<TopPageComponentProps> = ({
   firstCategory
 }): JSX.Element => {
   const [{ products: sortedProducts, sort }, dispatcher] = useReducer(sortReducer, {
-    products,
+    products: [],
     sort: SortingKind.Rating
   });
   const setSort = (sortingKind: SortingKind) => {
     dispatcher({ type: sortingKind });
   };
 
-  // useEffect(() => {
-  //   dispatcher({ type: 'SET_PRODUCTS', products });
-  // }, [products]);
+  useEffect(() => {
+    dispatcher({ type: 'SET_PRODUCTS', products });
+  }, [products]);
 
   return (
     <>

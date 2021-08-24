@@ -1,9 +1,10 @@
 import { GetStaticProps } from "next";
-import { SAxios } from "utils/Axios";
+import axios from 'axios';
 
 import { WithLayout } from "layout/Layout";
 
 import { MenuItem } from "interfaces/menu.interface";
+import { API } from 'helpers';
 
 function Search(): JSX.Element {
   return (
@@ -15,8 +16,7 @@ export default WithLayout(Search);
 
 export const getStaticProps: GetStaticProps<HomeProps> = async () => {
   const firstCategory = 0;
-  const route = `${process.env.NEXT_PUBLIC_DOMAIN}/api/top-page/find`;
-  const { data: menu } = await SAxios.post<MenuItem[]>(route, { firstCategory });
+  const { data: menu } = await axios.post<MenuItem[]>(API.topPage.find, { firstCategory });
 
   return {
     props: {

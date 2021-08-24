@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import Image from 'next/image';
 import clsx from "classnames";
 import { declinationOFNumber, formatPriceRu } from "utils";
@@ -16,13 +16,23 @@ import styles from './Product.module.css';
 export const Product: React.FC<ProductProps> = ({
   product,
   className,
+  ...props
 }): JSX.Element => {
-  const [isReviewsOpened, setIsReviewsOpened] = useState(true);
+  const [isReviewsOpened, setIsReviewsOpened] = useState(false);
+  const reviewRef = useRef<HTMLDivElement>(null);
   const toggleReviews = () => setIsReviewsOpened(!isReviewsOpened);
 
+  const scrollToReview = () => {
+    setIsReviewsOpened(true);
+    reviewRef.current?.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start'
+    });
+  };
+
   return (
-    <>
-      <Card className={clsx(styles.product, className)}>
+    <div className={className} {...props} >
+      <Card className={styles.product}>
         <div className={styles.logo}>
           <Image
             src={`${process.env.NEXT_PUBLIC_DOMAIN}${product.image}`}
@@ -56,7 +66,7 @@ export const Product: React.FC<ProductProps> = ({
         </div>
         <div className={styles.priceTitle}>цена</div>
         <div className={styles.creditTitle}>в кредит</div>
-        <div className={styles.reviewCount}>
+        <div className={styles.reviewCount} onClick={scrollToReview}>
           {product.reviewCount}{' '}
           {declinationOFNumber(product.reviewCount, ['отзыв', 'отзыва', 'отзывов'])}
         </div>
@@ -109,6 +119,7 @@ export const Product: React.FC<ProductProps> = ({
           [styles.opened]: isReviewsOpened,
           [styles.closed]: !isReviewsOpened,
         })}
+        ref={reviewRef}
       >
         {product.reviews.map((r) => (
           <React.Fragment key={r._id}>
@@ -118,6 +129,6 @@ export const Product: React.FC<ProductProps> = ({
         ))}
         <ReviewForm productId={product._id} />
       </Card>
-    </>
+    </div>
   );
 };

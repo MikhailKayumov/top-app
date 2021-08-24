@@ -4,6 +4,8 @@
   padding-bottom: 0;
 
   transition: padding-bottom 0.12s ease-out;
+
+  line-height: 1;
 }
 
 .wrapperError {
@@ -40,6 +42,12 @@
 
 .error {
   border: 1px solid var(--red);
+  box-shadow: 0 4px 4px rgba(252, 131, 109, 0.05);
+}
+
+.input.error:focus,
+.input.error:hover {
+  box-shadow: 0 4px 4px rgba(252, 131, 109, 0.4);
 }
 
 .errorMsg {

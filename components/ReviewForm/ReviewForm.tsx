@@ -1,13 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm, Controller } from "react-hook-form";
 import clsx from "classnames";
+import axios from 'axios';
+import { API } from 'helpers';
 
 import { Input } from "../Input/Input";
 import { Rating } from "../Rating/Rating";
 import { Textarea } from "../Textarea/Textarea";
 import { Button } from "../Button/Button";
 import { ReviewFormProps } from "./ReviewForm.props";
-import { IReviewForm } from "./ReviewForm.interface";
+import { IReviewForm, IReviewSentResponse } from './ReviewForm.interface';
 import styles from './ReviewForm.module.css';
 import TimesIcon from './times.svg';
 
@@ -16,10 +18,37 @@ export const ReviewForm: React.FC<ReviewFormProps> = ({
   className,
   ...props
 }): JSX.Element => {
-  const { register, control, handleSubmit, formState: { errors } } = useForm<IReviewForm>();
+  const { register, control, handleSubmit, formState: { errors }, reset } = useForm<IReviewForm>();
+  const [isSucces, setIsSuccess] = useState(false);
+  const [error, setError] = useState('');
 
-  const onSubmit = (data: IReviewForm) => {
-    console.log(data);
+  const onSubmit = async (formData: IReviewForm) => {
+    setIsSuccess(false);
+    setError('');
+
+    try {
+      const { data } = await axios.post<IReviewSentResponse>(API.review.createDemo, {
+        name: formData.name,
+        title: formData.title,
+        description: formData.description,
+        rating: formData.rating || 0,
+        productId
+      });
+
+      if (data.message) {
+        setIsSuccess(true);
+        reset();
+      } else {
+        setError('Что-то пошло не так');
+      }
+    } catch (e) {
+      const msg = e.response.data?.message.join(', ');
+      setError(msg || 'Не известная ошибка');
+    }
+  };
+  const onCloseMsg = () => {
+    setIsSuccess(false);
+    setError('');
   };
 
   return (
@@ -66,13 +95,22 @@ export const ReviewForm: React.FC<ReviewFormProps> = ({
           <span className={styles.info}>* Перед публикацией отзыв пройдет предварительную модерацию и проверку</span>
         </div>
       </div>
-      <div className={styles.success}>
-        <div className={styles.successTitle}>Ваш отзыв отправлен</div>
-        <div className={styles.successDescription}>
-          Спасибо, ваш отзыв будет опубликован после проверки
+      {isSucces && (
+        <div className={clsx(styles.success, styles.panel)}>
+          <div className={styles.successTitle}>Ваш отзыв отправлен</div>
+          <div className={styles.successDescription}>
+            Спасибо, ваш отзыв будет опубликован после проверки
+          </div>
+          <TimesIcon className={styles.close} onClick={onCloseMsg} />
         </div>
-        <TimesIcon className={styles.close} />
-      </div>
+      )}
+      {error && (
+        <div className={clsx(styles.error, styles.panel)}>
+          <div className={styles.successTitle}>Ошибка</div>
+          <div className={styles.successDescription}>{error}</div>
+          <TimesIcon className={styles.close} onClick={onCloseMsg} />
+        </div>
+      )}
     </form>
   );
 };

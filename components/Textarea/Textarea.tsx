@@ -11,6 +11,7 @@ export const Textarea: React.ForwardRefExoticComponent<
   ({
     className,
     error,
+    rows = 3,
     ...props
   }, ref): JSX.Element => {
     return (
@@ -18,6 +19,7 @@ export const Textarea: React.ForwardRefExoticComponent<
         [styles.wrapperError]: error
       }, className)}>
         <textarea
+          rows={rows}
           ref={ref}
           className={clsx(styles.textarea, {
             [styles.error]: error

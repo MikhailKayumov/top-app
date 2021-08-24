@@ -42,7 +42,7 @@ export function sortReducer(state: SortReducerState, action: SortActions): SortR
     case "SET_PRODUCTS":
       return {
         sort: state.sort,
-        products: action.products ?? []
+        products: sortProducts(action.products ?? [], state.sort)
       };
     default:
       return state;

@@ -1,12 +1,12 @@
 .review {
   display: grid;
 
-  align-items: center;
+  align-items: baseline;
 
   font-size: 14px;
   line-height: 24px;
   grid-template-columns: [start] auto 1fr auto [end];
-  gap: 20px 30px;
+  gap: 24px 30px;
 }
 
 .rating {
@@ -40,18 +40,25 @@
   margin-left: 15px;
 }
 
-.success {
+.panel {
   position: relative;
 
   margin-top: 20px;
   padding: 20px;
 
   border-radius: 5px;
+}
+
+.success {
   background-color: var(--green-light);
 }
 
 .successTitle {
   font-weight: bold;
+}
+
+.error {
+  background-color: var(--red-light);
 }
 
 .close {
@@ -60,6 +67,10 @@
   right: 20px;
 
   cursor: pointer;
+}
+
+.error .close {
+  stroke: var(--red);
 }
 
 @media screen and (max-width: 1100px) {
