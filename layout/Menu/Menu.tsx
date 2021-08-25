@@ -1,7 +1,8 @@
-import clsx from 'classnames';
-import Link from 'next/link';
-import { useRouter } from "next/router";
 import { Fragment, useContext } from 'react';
+import { useRouter } from "next/router";
+import Link from 'next/link';
+import clsx from 'classnames';
+import { motion, Variants } from 'framer-motion';
 
 import { AppContext } from 'context/app.context';
 import { FirstLevelMenuItem, PageItem } from 'interfaces/menu.interface';
@@ -9,13 +10,35 @@ import { firstLevelMenuDir } from "helpers";
 
 import styles from './Menu.module.css';
 
+const variants: Variants = {
+  visible: {
+    transition: {
+      staggerChildren: 0.1
+    }
+  },
+  hidden: {
+    transition: {
+      staggerChildren: 0.1,
+      staggerDirection: -1
+    }
+  }
+};
+const variantsChildren: Variants = {
+  visible: {
+    opacity: 1,
+    height: 29
+  },
+  hidden: {
+    opacity: 0,
+    height: 0
+  }
+};
 
 export const Menu = (): JSX.Element => {
   const { menu, firstCategory, setMenu } = useContext(AppContext);
   const router = useRouter();
 
   const openSecondLevel = (secondCategory: string) => {
-    console.log(secondCategory);
     setMenu && setMenu(menu.map((item) => {
       if (item._id.secondCategory === secondCategory) {
         item.isOpened = !item.isOpened;
@@ -63,11 +86,15 @@ export const Menu = (): JSX.Element => {
               >
                 {item._id.secondCategory}
               </div>
-              <div className={clsx(styles.secondLevelBlock, {
-                [styles.secondLevelBlockOpened]: item.isOpened
-              })}>
+              <motion.div
+                layout
+                variants={variants}
+                initial={item.isOpened ? 'visible' : 'hidden'}
+                animate={item.isOpened ? 'visible' : 'hidden'}
+                className={styles.secondLevelBlock}
+              >
                 {buildThirdLevel(item.pages, firstLvlMenuItem.route)}
-              </div>
+              </motion.div>
             </Fragment>
           );
         })}
@@ -80,13 +107,15 @@ export const Menu = (): JSX.Element => {
         {pages.map((item) => {
           const path = `/${route}/${item.alias}`;
           return (
-            <Link key={item.alias} href={path}>
-              <a className={clsx(styles.thirdLevel, {
-                [styles.thirdLevelActive]: path === router.asPath
-              })}>
-                {item.category}
-              </a>
-            </Link>
+            <motion.div key={item.alias} variants={variantsChildren}>
+              <Link href={path}>
+                <a className={clsx(styles.thirdLevel, {
+                  [styles.thirdLevelActive]: path === router.asPath
+                })}>
+                  {item.category}
+                </a>
+              </Link>
+            </motion.div>
           );
         })}
       </div>

@@ -31,7 +31,11 @@ export const TopPageComponent: React.FC<TopPageComponentProps> = ({
         <Tag color="grey" size="m">{sortedProducts.length}</Tag>
         <Sort sort={sort} setSort={setSort}/>
       </div>
-      <div>{sortedProducts.map((p) => <Product key={p._id} product={p} />)}</div>
+      <div>
+        {sortedProducts.map((p) => (
+          <Product key={p._id} product={p} layout />
+        ))}
+      </div>
       <div className={styles.HHTitle}>
         <HTag tag="h2">Вакансии - {page.category}</HTag>
         <Tag color="red" size="m">hh.ru</Tag>
