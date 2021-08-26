@@ -2,6 +2,7 @@ import React, { useEffect, useReducer } from 'react';
 import { Advantages, HHData, HTag, Product, Sort, Tag } from "components";
 import { SortingKind } from "components/Sort/Sort.props";
 import { TopLevelCategory } from "interfaces/page.interface";
+import { useScrollY } from "hooks/useScrollY";
 
 import { TopPageComponentProps } from "./TopPageComponent.props";
 import { sortReducer } from "./sort.reducer";
@@ -16,6 +17,7 @@ export const TopPageComponent: React.FC<TopPageComponentProps> = ({
     products: [],
     sort: SortingKind.Rating
   });
+  const scrollY = useScrollY();
   const setSort = (sortingKind: SortingKind) => {
     dispatcher({ type: sortingKind });
   };
