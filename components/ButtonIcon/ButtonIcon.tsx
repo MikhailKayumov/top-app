@@ -10,10 +10,10 @@ export const ButtonIcon: React.FC<ButtonIconProps> = ({
   className,
   ...props
 }): JSX.Element => {
-  const classes = clsx(styles.button, className, {
+  const classes = clsx(styles.button, {
     [styles.primary]: appearance === 'primary',
     [styles.white]: appearance === 'white',
-  });
+  }, className);
 
   const Icon = icons[icon];
 
