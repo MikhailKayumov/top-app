@@ -4,6 +4,7 @@ import UpArrowIcon from './upArrow.svg';
 import styles from './Up.module.css';
 import { useScrollY } from "hooks/useScrollY";
 import { motion, useAnimation } from 'framer-motion';
+import { ButtonIcon } from "../ButtonIcon/ButtonIcon";
 
 function scrollToTop() {
   window.scrollTo({
@@ -18,18 +19,21 @@ export const Up: React.FC = (): JSX.Element => {
 
   useEffect(() => {
     controls.start({
-      opacity: Math.min((y * 10) / document.body.scrollHeight, 1)
+      opacity: Math.min((y * 10) / document.body.scrollHeight, 1),
+      bottom: y + window.innerHeight + 70 > document.body.scrollHeight ?
+        100 - (document.body.scrollHeight - y - window.innerHeight) :
+        30
     });
+
   }, [y, controls]);
 
   return (
-    <motion.button
+    <motion.div
       className={styles.up}
-      onClick={scrollToTop}
       animate={controls}
       initial={{ opacity: 0 }}
     >
-      <UpArrowIcon />
-    </motion.button>
+      <ButtonIcon icon="up" onClick={scrollToTop} />
+    </motion.div>
   );
 };

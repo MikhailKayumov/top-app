@@ -14,6 +14,17 @@ import { ReviewForm } from "../ReviewForm/ReviewForm";
 import { ProductProps } from './Product.props';
 import styles from './Product.module.css';
 
+const variants = {
+  visible: {
+    opacity: 1,
+    height: 'auto'
+  },
+  hidden: {
+    opacity: 0,
+    height: 0
+  }
+};
+
 export const Product: CustomDomComponent<ProductProps> = motion(React.forwardRef(
   ({
      product,
@@ -115,22 +126,25 @@ export const Product: CustomDomComponent<ProductProps> = motion(React.forwardRef
             </Button>
           </div>
         </Card>
-        <Card
-          color="blue"
-          className={clsx(styles.reviews, {
-            [styles.opened]: isReviewsOpened,
-            [styles.closed]: !isReviewsOpened,
-          })}
-          ref={reviewRef}
+        <motion.div
+          variants={variants}
+          initial="hidden"
+          animate={isReviewsOpened ? 'visible' : 'hidden'}
         >
-          {product.reviews.map((r) => (
-            <React.Fragment key={r._id}>
-              <Review review={r} />
-              <Divider />
-            </React.Fragment>
-          ))}
-          <ReviewForm productId={product._id} />
-        </Card>
+          <Card
+            color="blue"
+            className={styles.reviews}
+            ref={reviewRef}
+          >
+            {product.reviews.map((r) => (
+              <React.Fragment key={r._id}>
+                <Review review={r} />
+                <Divider />
+              </React.Fragment>
+            ))}
+            <ReviewForm productId={product._id} />
+          </Card>
+        </motion.div>
       </div>
     );
   }
