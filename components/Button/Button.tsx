@@ -1,5 +1,6 @@
 import React from 'react';
 import clsx from 'classnames';
+import { motion } from 'framer-motion';
 
 import { ButtonProps } from "./Button.props";
 import styles from './Button.module.css';
@@ -21,7 +22,8 @@ export const Button: React.FC<ButtonProps> = ({
   });
 
   return (
-    <button
+    <motion.button
+      whileHover={{ scale: 1.05 }}
       className={classes}
       {...props}
     >
@@ -29,6 +31,6 @@ export const Button: React.FC<ButtonProps> = ({
       {arrow !== 'none' && (
         <ArrowIcon className={arrowClasses} />
       )}
-    </button>
+    </motion.button>
   );
 };

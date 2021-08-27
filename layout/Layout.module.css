@@ -13,8 +13,6 @@
 
 .header {
   grid-area: header;
-
-  display: none;
 }
 
 .sidebar {
@@ -37,10 +35,6 @@
       "body"
       "footer";
     gap: 10px;
-  }
-
-  .header {
-    display: block;
   }
 
   .body {
