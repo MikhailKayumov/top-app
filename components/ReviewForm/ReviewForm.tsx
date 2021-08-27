@@ -16,10 +16,11 @@ import TimesIcon from './times.svg';
 export const ReviewForm: React.FC<ReviewFormProps> = ({
   productId,
   className,
+  isOpened,
   ...props
 }): JSX.Element => {
   const { register, control, handleSubmit, formState: { errors }, reset } = useForm<IReviewForm>();
-  const [isSucces, setIsSuccess] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
   const [error, setError] = useState('');
 
   const onSubmit = async (formData: IReviewForm) => {
@@ -61,11 +62,13 @@ export const ReviewForm: React.FC<ReviewFormProps> = ({
           placeholder="Имя"
           {...register('name', { required: { value: true, message: 'Заполните имя' } })}
           error={errors.name}
+          tabIndex={isOpened ? 0 : -1}
         />
         <Input
           placeholder="Заголовок отзыва"
           className={styles.title}
           error={errors.title}
+          tabIndex={isOpened ? 0 : -1}
           {...register('title', { required: { value: true, message: 'Заполните заголовок' } })}
         />
         <div className={styles.rating}>
@@ -80,6 +83,7 @@ export const ReviewForm: React.FC<ReviewFormProps> = ({
                 setRating={field.onChange}
                 ref={field.ref}
                 isEditable
+                tabIndex={isOpened ? 0 : -1}
               />
             )}
           />
@@ -88,14 +92,15 @@ export const ReviewForm: React.FC<ReviewFormProps> = ({
           placeholder="Текст отзыва"
           className={styles.description}
           error={errors.description}
+          tabIndex={isOpened ? 0 : -1}
           {...register('description', { required: { value: true, message: 'Заполните описание' } })}
         />
         <div className={styles.submit}>
-          <Button>Отправить</Button>
+          <Button tabIndex={isOpened ? 0 : -1}>Отправить</Button>
           <span className={styles.info}>* Перед публикацией отзыв пройдет предварительную модерацию и проверку</span>
         </div>
       </div>
-      {isSucces && (
+      {isSuccess && (
         <div className={clsx(styles.success, styles.panel)}>
           <div className={styles.successTitle}>Ваш отзыв отправлен</div>
           <div className={styles.successDescription}>

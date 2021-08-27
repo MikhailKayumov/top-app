@@ -4,6 +4,7 @@
 
 .starBox {
   padding-right: 5px;
+  outline: none;
 }
 
 .star {
@@ -12,7 +13,7 @@
   outline: none;
 }
 
-.star:focus {
+.starBox:focus .star {
   fill: rgba(118, 83, 252, 0.37);
 }
 

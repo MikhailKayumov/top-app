@@ -83,6 +83,13 @@ export const Menu = (): JSX.Element => {
               <div
                 className={styles.secondLevel}
                 onClick={() => openSecondLevel(item._id.secondCategory)}
+                onKeyDown={(e) => {
+                  if (e.code === 'Enter' || e.code === 'Space') {
+                    e.preventDefault();
+                    openSecondLevel(item._id.secondCategory);
+                  }
+                }}
+                tabIndex={0}
               >
                 {item._id.secondCategory}
               </div>
@@ -93,7 +100,7 @@ export const Menu = (): JSX.Element => {
                 animate={item.isOpened ? 'visible' : 'hidden'}
                 className={styles.secondLevelBlock}
               >
-                {buildThirdLevel(item.pages, firstLvlMenuItem.route)}
+                {buildThirdLevel(item.pages, firstLvlMenuItem.route, !!item.isOpened)}
               </motion.div>
             </Fragment>
           );
@@ -101,17 +108,23 @@ export const Menu = (): JSX.Element => {
       </div>
     );
   };
-  const buildThirdLevel = (pages: PageItem[], route: string) => {
+  const buildThirdLevel = (pages: PageItem[], route: string, isOpened: boolean) => {
     return (
       <div>
         {pages.map((item) => {
           const path = `/${route}/${item.alias}`;
           return (
-            <motion.div key={item.alias} variants={variantsChildren}>
+            <motion.div
+              key={item.alias}
+              variants={variantsChildren}
+            >
               <Link href={path}>
-                <a className={clsx(styles.thirdLevel, {
-                  [styles.thirdLevelActive]: path === router.asPath
-                })}>
+                <a
+                  tabIndex={isOpened ? 0 : -1}
+                  className={clsx(styles.thirdLevel, {
+                    [styles.thirdLevelActive]: path === router.asPath
+                  })}
+                >
                   {item.category}
                 </a>
               </Link>

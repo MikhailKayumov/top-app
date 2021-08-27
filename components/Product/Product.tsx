@@ -79,9 +79,20 @@ export const Product: CustomDomComponent<ProductProps> = motion(React.forwardRef
           </div>
           <div className={styles.priceTitle}>цена</div>
           <div className={styles.creditTitle}>в кредит</div>
-          <div className={styles.reviewCount} onClick={scrollToReview}>
-            {product.reviewCount}{' '}
-            {declinationOFNumber(product.reviewCount, ['отзыв', 'отзыва', 'отзывов'])}
+          <div className={styles.reviewCount}>
+            <span
+              onClick={scrollToReview}
+              onKeyDown={(e) => {
+                if (e.code === 'Enter') {
+                  scrollToReview();
+                  reviewRef.current?.focus();
+                }
+              }}
+              tabIndex={0}
+            >
+              {product.reviewCount}{' '}
+              {declinationOFNumber(product.reviewCount, ['отзыв', 'отзыва', 'отзывов'])}
+            </span>
           </div>
 
           <Divider className={styles.hr} />
@@ -135,6 +146,7 @@ export const Product: CustomDomComponent<ProductProps> = motion(React.forwardRef
             color="blue"
             className={styles.reviews}
             ref={reviewRef}
+            tabIndex={isReviewsOpened ? 0 : -1}
           >
             {product.reviews.map((r) => (
               <React.Fragment key={r._id}>
@@ -142,7 +154,7 @@ export const Product: CustomDomComponent<ProductProps> = motion(React.forwardRef
                 <Divider />
               </React.Fragment>
             ))}
-            <ReviewForm productId={product._id} />
+            <ReviewForm productId={product._id} isOpened={isReviewsOpened} />
           </Card>
         </motion.div>
       </div>

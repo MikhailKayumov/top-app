@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import clsx from "classnames";
 
 import { RatingProps } from './Rating.props';
@@ -12,26 +12,51 @@ export const Rating: React.ForwardRefExoticComponent<
   React.RefAttributes<HTMLDivElement>
 > = React.forwardRef(
   ({
-     rating,
-     isEditable = false,
-     setRating,
-     className,
-     ...props
+    rating,
+    isEditable = false,
+    setRating,
+    className,
+    tabIndex,
+    ...props
    }, ref): JSX.Element => {
     const [ratingArray, setRatingArray] = useState<JSX.Element[]>(new Array(5).fill(<></>));
+    const ratingRef = useRef<(HTMLDivElement | null)[]>([]);
 
     const changeDisplay = (i: number) => {
       if (isEditable) constructRating(i);
     };
     const onClick = (i: number) => {
       if (isEditable && setRating) {
-        setRating(i === rating ? 0 : i);
+        const newRating = i === rating ? 0 : i;
+        setRating(newRating);
       }
     };
-    const handleSpace = (i: number, e: React.KeyboardEvent<SVGElement>) => {
-      if (e.code === 'Enter' && setRating) {
-        setRating(i === rating ? 0 : i);
+    const handleKey = (e: React.KeyboardEvent<HTMLDivElement>) => {
+      if (!isEditable || !setRating) return;
+
+      let newRating: number | null = null;
+      switch (e.code) {
+        case 'ArrowRight':
+        case 'ArrowUp':
+          newRating = Math.min((rating || 0) + 1, 5);
+          break;
+        case 'ArrowLeft':
+        case 'ArrowDown':
+          newRating = Math.max((rating || 1) - 1, 0);
+          break;
       }
+
+      if (newRating !== null) {
+        e.preventDefault();
+        setRating(newRating);
+        ratingRef.current[newRating]?.focus();
+      }
+    };
+    const computeFocus = (r: number, id: number): number => {
+      if (!isEditable) return -1;
+      if (!rating && id == 0) return tabIndex ?? 0;
+      if (r === id) return tabIndex ?? 0;
+      return -1;
     };
     const constructRating = (currentRating: number) => {
       const updatedArray = ratingArray.map((r, id) => {
@@ -41,11 +66,12 @@ export const Rating: React.ForwardRefExoticComponent<
             onMouseEnter={() => changeDisplay(id + 1)}
             onMouseLeave={() => changeDisplay(rating)}
             onClick={() => onClick(id + 1)}
+            tabIndex={computeFocus(rating, id)}
+            onKeyDown={handleKey}
+            ref={(r) => ratingRef.current.push(r)}
           >
             <StarIcon
               className={clsx(styles.star, { [styles.filled]: id < currentRating })}
-              tabIndex={isEditable ? 0 : -1}
-              onKeyDown={(e) => isEditable && handleSpace(id + 1, e)}
             />
           </div>
         );
@@ -56,7 +82,7 @@ export const Rating: React.ForwardRefExoticComponent<
 
     useEffect(() => {
       constructRating(rating);
-    }, [rating]);
+    }, [rating, tabIndex]);
 
     return (
       <div

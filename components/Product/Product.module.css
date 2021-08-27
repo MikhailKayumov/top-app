@@ -38,6 +38,9 @@
 
 .rating,
 .reviewCount {
+  display: inline-flex;
+  align-items: flex-start;
+
   cursor: pointer;
 
   color: var(--primary);
@@ -164,7 +167,7 @@
 }
 
 .advantages::before {
-  background-color: var(--green);
+  background-color: #1DC37E;
 }
 
 .disadvantages::before {
@@ -196,6 +199,8 @@
   overflow: hidden;
 
   padding: 30px;
+
+  outline: none;
 }
 
 @media screen and (max-width: 1320px) {

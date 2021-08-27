@@ -40,10 +40,11 @@
   text-transform: uppercase;
 
   color: var(--grey-dark);
+  outline-offset: 1px;
 
   font-size: 12px;
   font-weight: 300;
-  line-height: 16px;
+  line-height: 17px;
 }
 
 .secondLevel:first-child {
@@ -72,10 +73,11 @@
   transition: color 0.16s ease-out;
 
   color: var(--grey-dark);
+  outline-offset: -1px;
 
   font-size: 14px;
   font-weight: 500;
-  line-height: 19px;
+  line-height: 20px;
 }
 
 .thirdLevelActive,
