@@ -11,20 +11,24 @@ import { firstLevelMenuDir, API } from "helpers";
 import { TopPageComponent } from "page-components";
 
 function TopPage({ page, products, firstCategory }: TopPageProps): JSX.Element {
-  return page && products && (
+  return (
     <>
-      <Head>
-        <title>{page.metaTitle}</title>
-        <meta name="description" content={page.metaDescription} />
-        <meta property="og:title" content={page.metaTitle} />
-        <meta property="og:description" content={page.metaDescription} />
-        <meta property="og:type" content="article" />
-      </Head>
-      <TopPageComponent
-        page={page}
-        products={products}
-        firstCategory={firstCategory}
-      />
+      {page && products && (
+        <>
+          <Head>
+            <title>{page.metaTitle}</title>
+            <meta name="description" content={page.metaDescription} />
+            <meta property="og:title" content={page.metaTitle} />
+            <meta property="og:description" content={page.metaDescription} />
+            <meta property="og:type" content="article" />
+          </Head>
+          <TopPageComponent
+            page={page}
+            products={products}
+            firstCategory={firstCategory}
+          />
+        </>
+      )}
     </>
   );
 }
