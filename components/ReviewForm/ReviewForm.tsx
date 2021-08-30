@@ -42,9 +42,8 @@ export const ReviewForm: React.FC<ReviewFormProps> = ({
       } else {
         setError('Что-то пошло не так');
       }
-    } catch (e) {
-      const msg = e.response.data?.message.join(', ');
-      setError(msg || 'Не известная ошибка');
+    } catch {
+      setError('Не известная ошибка');
     }
   };
   const onCloseMsg = () => {
