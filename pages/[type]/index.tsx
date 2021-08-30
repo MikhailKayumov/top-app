@@ -5,7 +5,7 @@ import { WithLayout } from "layout/Layout";
 import { MenuItem } from "interfaces/menu.interface";
 import { API, firstLevelMenuDir } from 'helpers';
 
-function Type({ firstCategory, menu }: TypeProps): JSX.Element {return (
+function Type({ firstCategory }: TypeProps): JSX.Element {return (
     <>type: {firstCategory}</>
   );
 }
