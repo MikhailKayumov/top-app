@@ -2,7 +2,7 @@ import { Fragment, useContext } from 'react';
 import { useRouter } from "next/router";
 import Link from 'next/link';
 import clsx from 'classnames';
-import { motion, Variants } from 'framer-motion';
+import { motion, useReducedMotion, Variants } from 'framer-motion';
 
 import { AppContext } from 'context/app.context';
 import { FirstLevelMenuItem, PageItem } from 'interfaces/menu.interface';
@@ -10,33 +10,34 @@ import { firstLevelMenuDir } from "helpers";
 
 import styles from './Menu.module.css';
 
-const variants: Variants = {
-  visible: {
-    transition: {
-      staggerChildren: 0.1
-    }
-  },
-  hidden: {
-    transition: {
-      staggerChildren: 0.1,
-      staggerDirection: -1
-    }
-  }
-};
-const variantsChildren: Variants = {
-  visible: {
-    opacity: 1,
-    height: 29
-  },
-  hidden: {
-    opacity: 0,
-    height: 0
-  }
-};
-
 export const Menu = (): JSX.Element => {
   const { menu, firstCategory, setMenu } = useContext(AppContext);
+  const shouldReduceMotion = useReducedMotion();
   const router = useRouter();
+
+  const variants: Variants = {
+    visible: {
+      transition: shouldReduceMotion ? {} : {
+        staggerChildren: 0.1
+      }
+    },
+    hidden: {
+      transition: shouldReduceMotion ? {} : {
+        staggerChildren: 0.1,
+        staggerDirection: -1
+      }
+    }
+  };
+  const variantsChildren: Variants = {
+    visible: {
+      opacity: 1,
+      height: 29
+    },
+    hidden: {
+      opacity: shouldReduceMotion ? 1 : 0,
+      height: 0
+    }
+  };
 
   const openSecondLevel = (secondCategory: string) => {
     setMenu && setMenu(menu.map((item) => {
@@ -124,6 +125,7 @@ export const Menu = (): JSX.Element => {
                   className={clsx(styles.thirdLevel, {
                     [styles.thirdLevelActive]: path === router.asPath
                   })}
+                  aria-current={path === router.asPath ? 'page' : false}
                 >
                   {item.category}
                 </a>
@@ -135,5 +137,5 @@ export const Menu = (): JSX.Element => {
     );
   };
 
-  return <div>{buildFirstLevel()}</div>;
+  return <nav role="navigation">{buildFirstLevel()}</nav>;
 };

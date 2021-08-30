@@ -37,3 +37,7 @@
 .sort span:hover {
   color: var(--primary);
 }
+
+.sortName {
+  display: none;
+}

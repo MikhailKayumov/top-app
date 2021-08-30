@@ -44,7 +44,7 @@ export const Product: CustomDomComponent<ProductProps> = motion(React.forwardRef
     };
 
     return (
-      <div className={className} ref={ref} {...props} >
+      <div className={className} ref={ref} {...props} role="listitem" >
         <Card className={styles.product}>
           <div className={styles.logo}>
             <Image
@@ -57,18 +57,20 @@ export const Product: CustomDomComponent<ProductProps> = motion(React.forwardRef
 
           <div className={styles.title}>{product.title}</div>
           <div className={styles.price}>
-            {formatPriceRu(product.price)}
+            <span><span className="visuallyHidden">цена</span>{formatPriceRu(product.price)}</span>
             {!!product.oldPrice && (
               <Tag color={"green"} size="s">
+                <span className="visuallyHidden">скидка</span>
                 {formatPriceRu(product.price - product.oldPrice)}
               </Tag>
             )}
           </div>
           <div className={styles.credit}>
-            {formatPriceRu(product.credit)}
+            <span><span className="visuallyHidden">кредит</span>{formatPriceRu(product.credit)}</span>
             <span className={styles.month}>/мес</span>
           </div>
           <div className={styles.rating}>
+            <span className="visuallyHidden">рейтинг {product.reviewAvg ?? product.initialRating}</span>
             <Rating rating={product.reviewAvg ?? product.initialRating} />
           </div>
 
@@ -77,8 +79,8 @@ export const Product: CustomDomComponent<ProductProps> = motion(React.forwardRef
               <Tag key={c} className={styles.category}>{c}</Tag>
             ))}
           </div>
-          <div className={styles.priceTitle}>цена</div>
-          <div className={styles.creditTitle}>в кредит</div>
+          <div className={styles.priceTitle} aria-hidden>цена</div>
+          <div className={styles.creditTitle} aria-hidden>в кредит</div>
           <div className={styles.reviewCount}>
             <span
               onClick={scrollToReview}
@@ -132,6 +134,7 @@ export const Product: CustomDomComponent<ProductProps> = motion(React.forwardRef
               arrow={isReviewsOpened ? 'down' : 'right'}
               onClick={toggleReviews}
               className={styles.reviewBtn}
+              aria-expanded={isReviewsOpened}
             >
               Читать отзывы
             </Button>

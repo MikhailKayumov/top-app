@@ -1,4 +1,5 @@
 import React, { useEffect, useReducer } from 'react';
+import { useReducedMotion } from "framer-motion";
 import { Advantages, HHData, HTag, Product, Sort, Tag } from "components";
 import { SortingKind } from "components/Sort/Sort.props";
 import { TopLevelCategory } from "interfaces/page.interface";
@@ -16,6 +17,7 @@ export const TopPageComponent: React.FC<TopPageComponentProps> = ({
     products: [],
     sort: SortingKind.Rating
   });
+  const shouldReduceMotion = useReducedMotion();
   const setSort = (sortingKind: SortingKind) => {
     dispatcher({ type: sortingKind });
   };
@@ -28,12 +30,18 @@ export const TopPageComponent: React.FC<TopPageComponentProps> = ({
     <>
       <div className={styles.title}>
         <HTag tag="h1">{page.title}</HTag>
-        <Tag color="grey" size="m">{sortedProducts.length}</Tag>
+        <Tag
+          color="grey"
+          size="m"
+          aria-label={`${products.length} элементов`}
+        >
+          {sortedProducts.length}
+        </Tag>
         <Sort sort={sort} setSort={setSort}/>
       </div>
-      <div>
+      <div role="list">
         {sortedProducts.map((p) => (
-          <Product key={p._id} product={p} layout />
+          <Product key={p._id} product={p} layout={!!shouldReduceMotion} />
         ))}
       </div>
       <div className={styles.HHTitle}>

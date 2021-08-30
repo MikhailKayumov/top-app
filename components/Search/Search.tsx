@@ -33,7 +33,11 @@ export const Search: React.FC<SearchProps> = ({
   };
 
   return (
-    <div className={clsx(className, styles.search)} {...props}>
+    <form
+      role="search"
+      className={clsx(className, styles.search)}
+      {...props}
+    >
       <Input
         placeholder="Поиск..."
         value={value}
@@ -45,9 +49,10 @@ export const Search: React.FC<SearchProps> = ({
         appearance="primary"
         className={styles.button}
         onClick={() => find}
+        aria-label="Искать по сайту"
       >
         <SearchIcon />
       </Button>
-    </div>
+    </form>
   );
 };

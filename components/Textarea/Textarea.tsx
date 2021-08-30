@@ -26,7 +26,7 @@ export const Textarea: React.ForwardRefExoticComponent<
           })}
           {...props}
         />
-        {error && <span className={styles.errorMsg}>{error.message}</span>}
+        {error && <span role="alert" className={styles.errorMsg}>{error.message}</span>}
       </div>
     );
   }

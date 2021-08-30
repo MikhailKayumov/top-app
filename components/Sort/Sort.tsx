@@ -21,22 +21,31 @@ export const Sort: React.FC<SortProps> = ({
 
   return (
     <div className={clsx(styles.sort, className)} {...props}>
+      <div className={styles.sortName} id="sort">Сортировка</div>
       <span
+        id="rating"
         onClick={selectSort}
         onKeyDown={selectSort}
         className={clsx({ [styles.active]: sort === SortingKind.Rating })}
         data-sortingkind={SortingKind.Rating}
         tabIndex={0}
+        role="button"
+        aria-selected={sort === SortingKind.Rating}
+        aria-labelledby="sort rating"
       >
         <SortIcon className={styles.sortIcon} />
         По рейтингу
       </span>
       <span
+        id="price"
         onClick={selectSort}
         onKeyDown={selectSort}
         className={clsx({ [styles.active]: sort === SortingKind.Price })}
         data-sortingkind={SortingKind.Price}
         tabIndex={0}
+        role="button"
+        aria-selected={sort === SortingKind.Price}
+        aria-labelledby="sort price"
       >
         <SortIcon className={styles.sortIcon} />
         По цене
