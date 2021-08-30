@@ -9,7 +9,7 @@ import { useLayoutEffect } from 'react';
 
 function Type({ firstCategory, menu }: TypeProps): JSX.Element {
   const router = useRouter();
-  const { name, route } = firstLevelMenuDir[firstCategory];
+  const { name, route } = firstLevelMenuDir[firstCategory] || {};
 
   useLayoutEffect(() => {
     if (menu.length) {
@@ -17,11 +17,11 @@ function Type({ firstCategory, menu }: TypeProps): JSX.Element {
     }
   }, [firstCategory]);
 
-  if (menu.length) return <></>;
+  if (menu && menu.length) return <></>;
 
   return (
     <>
-      <HTag tag="h1">{name}</HTag>
+      {name && <HTag tag="h1">{name}</HTag>}
       <PTag>Данный раздел пока пуст.</PTag>
     </>
   );
