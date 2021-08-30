@@ -37,7 +37,6 @@ export const Header: React.FC<HeaderProps> = ({
   useEffect(() => {
     document.body.style.overflowY = isOpen ? 'hidden' : 'auto';
   }, [isOpen]);
-
   useEffect(() => {
     setIsOpen(false);
   }, [router]);

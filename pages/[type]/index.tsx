@@ -1,12 +1,29 @@
 import { GetStaticPaths, GetStaticProps, GetStaticPropsContext } from "next";
 import axios from 'axios';
-
-import { WithLayout } from "layout/Layout";
-import { MenuItem } from "interfaces/menu.interface";
+import { useRouter } from 'next/router';
 import { API, firstLevelMenuDir } from 'helpers';
+import { MenuItem } from "interfaces/menu.interface";
+import { HTag, PTag } from 'components';
+import { WithLayout } from "layout/Layout";
+import { useLayoutEffect } from 'react';
 
-function Type({ firstCategory }: TypeProps): JSX.Element {return (
-    <>type: {firstCategory}</>
+function Type({ firstCategory, menu }: TypeProps): JSX.Element {
+  const router = useRouter();
+  const { name, route } = firstLevelMenuDir[firstCategory];
+
+  useLayoutEffect(() => {
+    if (menu.length) {
+      router.replace(route + '/' + menu[0].pages[0].alias);
+    }
+  }, [firstCategory]);
+
+  if (menu.length) return <></>;
+
+  return (
+    <>
+      <HTag tag="h1">{name}</HTag>
+      <PTag>Данный раздел пока пуст.</PTag>
+    </>
   );
 }
 
