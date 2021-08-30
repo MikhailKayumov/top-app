@@ -7,10 +7,10 @@ import { MenuItem } from "interfaces/menu.interface";
 import { API } from 'helpers';
 
 function Home({ menu, firstCategory }: HomeProps): JSX.Element {
-  console.log({
-    menu,
-    firstCategory
-  });
+  // console.log({
+  //   menu,
+  //   firstCategory
+  // });
   return (
     <div></div>
   );

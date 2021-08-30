@@ -11,7 +11,7 @@ import { firstLevelMenuDir, API } from "helpers";
 import { TopPageComponent } from "page-components";
 
 function TopPage({ page, products, firstCategory }: TopPageProps): JSX.Element {
-  return (
+  return page && products && (
     <>
       <Head>
         <title>{page.metaTitle}</title>
