@@ -1,4 +1,5 @@
 import { GetStaticProps } from "next";
+import Error from "next/error";
 import axios from 'axios';
 
 import { WithLayout } from "layout/Layout";
@@ -7,12 +8,8 @@ import { MenuItem } from "interfaces/menu.interface";
 import { API } from 'helpers';
 
 function Home({ menu, firstCategory }: HomeProps): JSX.Element {
-  // console.log({
-  //   menu,
-  //   firstCategory
-  // });
   return (
-    <div></div>
+    <Error statusCode={404} />
   );
 }
 
