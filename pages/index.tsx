@@ -5,12 +5,19 @@ import axios from 'axios';
 import { WithLayout } from "layout/Layout";
 
 import { MenuItem } from "interfaces/menu.interface";
-import { API } from 'helpers';
+import { API, firstLevelMenuDir } from 'helpers';
+import { useLayoutEffect } from 'react';
+import { useRouter } from 'next/router';
 
-function Home({ menu, firstCategory }: HomeProps): JSX.Element {
-  return (
-    <Error statusCode={404} />
-  );
+function Home({ firstCategory }: HomeProps): JSX.Element {
+  const router = useRouter();
+  const { route } = firstLevelMenuDir[firstCategory];
+
+  useLayoutEffect(() => {
+    router.replace(route);
+  }, [firstCategory]);
+
+  return <></>;
 }
 
 export default WithLayout(Home);

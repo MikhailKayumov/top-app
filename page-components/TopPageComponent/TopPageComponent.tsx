@@ -41,7 +41,7 @@ export const TopPageComponent: React.FC<TopPageComponentProps> = ({
       </div>
       <div role="list">
         {sortedProducts.map((p) => (
-          <Product key={p._id} product={p} layout={!!shouldReduceMotion} />
+          <Product key={p._id} product={p} layout={!shouldReduceMotion} />
         ))}
       </div>
       <div className={styles.HHTitle}>
